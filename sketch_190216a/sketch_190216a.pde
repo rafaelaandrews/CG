@@ -9,14 +9,20 @@ void draw(){
   float raio = 0.45*width;
   float n = 3 + (80*mouseX/width);
   translate(width/2,height/2);
-  ellipse(0,0,2*raio,2*raio);
+  circle(0,0,raio*2);
+  
   int sec = millis();
   int min = minute();
   int hora = hour();
 
   beginShape();
-    Float teta = (TWO_PI*sec/60000)-HALF_PI;
-    line(0,0,raio*cos(teta),raio*sin(teta));
+    float anguloSec = (TWO_PI*sec/60000)-HALF_PI;
+    float anguloMin = (TWO_PI*min)-HALF_PI;
+    float anguloHora = (TWO_PI*hora)-HALF_PI;
 
+    line(0,0,raio*cos(anguloSec),raio*sin(anguloSec));
+    strokeWeight(6);
+    line(0,0,raio*cos(anguloMin),raio*sin(anguloMin));
+   // line(0,0,raio*cos(),raio*sin());
   endShape(CLOSE);
 }
