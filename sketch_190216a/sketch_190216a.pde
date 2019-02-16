@@ -16,6 +16,7 @@ void draw(){
   int hora = hour();
 
   beginShape();
+    float anguloTeta = TWO_PI;
     float anguloSec = (TWO_PI*sec/60000)-HALF_PI;
     float anguloMin = (TWO_PI*min)-HALF_PI;
     float anguloHora = (TWO_PI*hora)-HALF_PI;
@@ -24,5 +25,9 @@ void draw(){
     strokeWeight(6);
     line(0,0,raio*cos(anguloMin),raio*sin(anguloMin));
    // line(0,0,raio*cos(),raio*sin());
+    for(int i=0; i<11; i++){
+      line(raio*cos(anguloHora),raio*sin(anguloHora),raio*cos(anguloHora)+i,raio*sin(anguloHora)+i);
+    }
+   
   endShape(CLOSE);
 }
