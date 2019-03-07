@@ -1,6 +1,6 @@
 float solX, solY, terraX, terraY, luaX, luaY;
 float rSol, rTerra, rLua;
-float thetaTerra = PI/300, thetaLua = PI/300;
+float thetaTerra = PI/500, thetaLua = PI/300;
   
 
 void setup(){
@@ -20,13 +20,19 @@ void setup(){
 }
 
 void draw(){
-  background(15);
+  background(35);
   fill(255,235,100);
   circle(solX,solY,rSol);
-  fill(50,50,255);
+  fill(100,200,230); 
   circle(terraX,terraY,rTerra);
   fill(170,170,170);
   circle(luaX,luaY,rLua);
+  
+  stroke(240);
+  for(int i=0; i<=600; i++){   
+      float f = random(600);
+      point(i,f);
+  }
   
   terraX -= solX;
   terraY -= solY;
