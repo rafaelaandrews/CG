@@ -6,7 +6,7 @@ void setup(){
 void draw(){
   background(200);
   float raio = 0.45*width;
-  float n = 3 + (80*mouseX/width);
+  //float n = 3 + (80*mouseX/width);
   translate(width/2,height/2);
   circle(0,0,raio*2);
  
@@ -28,13 +28,12 @@ void draw(){
     line(0,0,0.87*raio*cos(anguloMin),0.87*raio*sin(anguloMin));
     strokeWeight(5);
     line(0,0,0.92*raio*cos(anguloSec),0.92*raio*sin(anguloSec));  
-
-    for(int i=0;i<360;i=i+6){
-      line(0.95*raio*cos((i*PI)/180),0.95*raio*sin((i*PI)/180),raio*cos((i*PI)/180),raio*sin((i*PI)/180));
-    }
     
-    for(int i=0;i<360;i=i+30){
-    line(0.90*raio*cos((i*PI)/180),0.90*raio*sin((i*PI)/180),raio*cos((i*PI)/180),raio*sin((i*PI)/180));
+    for(int i=0; i<60; i++){
+      line(raio*cos(TWO_PI*i/60)*0.95,raio*sin(TWO_PI*i/60)*0.95,raio*cos(TWO_PI*i/60),raio*sin(TWO_PI*i/60));
+      if(i%5 == 0){
+        line(raio*cos(TWO_PI*i/60)*0.90,raio*sin(TWO_PI*i/60)*0.90,raio*cos(TWO_PI*i/60),raio*sin(TWO_PI*i/60));
+      }
     }
 
   endShape(CLOSE);
