@@ -33,11 +33,11 @@ cores = ( (1,0,0),(1,1,0),(0,1,0),(0,1,1),(0,0,1),(1,0,1),(0.5,1,1),(1,0,0.5) )
 def revolucao():
     i = 0
     j = 0
-    dx = (xf -x0)/px
-    dy = (yf -y0)/py
+    dx = (xf -x0)/2px
+    dy = (yf -y0)/2py
     y = y0
     glPushMatrix()
-    glTranslatef(0,0,8)
+    glTranslatef(0,0,6)
     while(y <= yf):
         x = x0
         glBegin(GL_QUAD_STRIP)
