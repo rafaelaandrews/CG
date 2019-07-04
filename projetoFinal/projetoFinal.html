@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset=utf-8>
+        <title>Projeto final Computacao Grafica</title>
+        <style>
+            body {
+                margin: 0;
+            }
+            canvas {
+                width: 100%;
+                height: 100%
+            }
+        </style>
+    </head>
+    <body>
+        <script src="three.js"></script>
+        <script src="TrackballControls.js"></script>
+        <script>
+
+            let scene = new THREE.Scene();
+            let camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+            let webGLRenderer = new THREE.WebGLRenderer();
+            webGLRenderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(webGLRenderer.domElement);
+
+            let trackballControls = new THREE.TrackballControls(camera);
+            webGLRenderer.shadowMapEnabled = true;
+            webGLRenderer.shadowMapType = THREE.PCFSoftShadowMap;
+            camera.position.z = 300;
+
+            //hex, intensidade e distancia
+            let pointLight1 = new THREE.PointLight(0x404040, 20, 600);
+            let pointLight2 = new THREE.PointLight(0x404040, 20, 600);
+            let pointLight3 = new THREE.PointLight(0x404040, 20, 600);
+            pointLight1.position.set(0, 0, 0);
+            pointLight2.position.set(0, 60, 0);
+            pointLight3.position.set(0, -60, 0);
+            scene.add(pointLight1);
+            scene.add(pointLight2);
+            scene.add(pointLight3);
+
+            let sun;
+            let mercury;
+            let venus;
+            let earth;
+            let mars;
+            let jupiter;
+            let saturn;
+            let neptune;
+            let uranus;
+            let moon;
+            let stars;
+
+            //criação das texturas
+            let textureLoader = new THREE.TextureLoader();
+
+            textureLoader.load('imagens/2k_sun.jpg', function (texture) {
+                let sphereGeometry = new THREE.SphereGeometry(35, 32, 32);
+                let meshBasicMaterial = new THREE.MeshBasicMaterial({map: texture});
+                sun = new THREE.Mesh(sphereGeometry, meshBasicMaterial);
+                scene.add(sun);
+            });
+
+            textureLoader.load('imagens/mercurymap.jpg', function (texture) {
+                let sphereGeometry = new THREE.SphereGeometry(2, 32, 32);
+                let meshBasicMaterial = new THREE.MeshLambertMaterial({map: texture});
+                mercury = new THREE.Mesh(sphereGeometry, meshBasicMaterial);
+                scene.add(mercury);
+                mercury.position.set(45, 0, 90);
+            });
+
+            textureLoader.load('imagens/venusmap.jpg', function (texture) {
+                let sphereGeometry = new THREE.SphereGeometry(4, 32, 32);
+                let meshBasicMaterial = new THREE.MeshLambertMaterial({map: texture});
+                venus = new THREE.Mesh(sphereGeometry, meshBasicMaterial);
+                scene.add(venus);
+                venus.position.set(55, 0, 165);
+            });
+
+            textureLoader.load('imagens/earthmap1k.jpg', function (texture) {
+                let sphereGeometry = new THREE.SphereGeometry(5, 32, 32);
+                let meshBasicMaterial = new THREE.MeshLambertMaterial({map: texture});
+                earth = new THREE.Mesh(sphereGeometry, meshBasicMaterial);
+                scene.add(earth);
+                earth.position.set(75, 0, 0);
+            });
+
+            textureLoader.load('imagens/marsmap1k.jpg', function (texture) {
+                let sphereGeometry = new THREE.SphereGeometry(3, 32, 32);
+                let meshBasicMaterial = new THREE.MeshLambertMaterial({map: texture});
+                mars = new THREE.Mesh(sphereGeometry, meshBasicMaterial);
+                scene.add(mars);
+                mars.position.set(95, 0, 95);
+            });
+
+            textureLoader.load('imagens/jupitermap.jpg', function (texture) {
+                let sphereGeometry = new THREE.SphereGeometry(15, 32, 32);
+                let meshBasicMaterial = new THREE.MeshLambertMaterial({map: texture});
+                jupiter = new THREE.Mesh(sphereGeometry, meshBasicMaterial);
+                scene.add(jupiter);
+                jupiter.position.set(125, 0, 27);
+            });
+
+            textureLoader.load('imagens/saturnmap.jpg', function (texture) {
+                let sphereGeometry = new THREE.SphereGeometry(8, 32, 32);
+                let meshBasicMaterial = new THREE.MeshLambertMaterial({map: texture});
+                saturn = new THREE.Mesh(sphereGeometry, meshBasicMaterial);
+                scene.add(saturn);
+                saturn.position.set(165, 0, 79);
+            });
+
+            textureLoader.load('imagens/neptunemap.jpg', function (texture) {
+                let sphereGeometry = new THREE.SphereGeometry(7, 32, 32);
+                let meshBasicMaterial = new THREE.MeshLambertMaterial({map: texture});
+                neptune = new THREE.Mesh(sphereGeometry, meshBasicMaterial);
+                scene.add(neptune);
+                neptune.position.set(225, 0, 192);
+            });
+
+            textureLoader.load('imagens/uranusmap.jpg', function (texture) {
+                let sphereGeometry = new THREE.SphereGeometry(7, 32, 32);
+                let meshBasicMaterial = new THREE.MeshLambertMaterial({map: texture});
+                uranus = new THREE.Mesh(sphereGeometry, meshBasicMaterial);
+                scene.add(uranus);
+                uranus.position.set(195, 0, 267);
+            });
+
+            textureLoader.load('imagens/moonbump1k.jpg', function (texture) {
+                let sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
+                let meshBasicMaterial = new THREE.MeshLambertMaterial({map: texture});
+                moon = new THREE.Mesh(sphereGeometry, meshBasicMaterial);
+                scene.add(moon);
+                moon.position.set(82, 0, 0);
+            });
+
+            textureLoader.load('imagens/galaxy_starfield.png', function (texture) {
+                let sphereGeometry = new THREE.SphereGeometry(600, 80, 80);
+                let meshBasicMaterial = new THREE.MeshBasicMaterial({map: texture, side: THREE.BackSide});
+                stars = new THREE.Mesh(sphereGeometry, meshBasicMaterial);
+                scene.add(stars);
+            });
+
+            let orbitAngleInRadians;
+            let x;
+            let z;
+            let mercuryRadius = 45;
+            let mercuryAngle = 90;
+            let mercurySpeed = 3;
+            let venusRadius = 55;
+            let venusAngle = 165;
+            let venusSpeed = 2;
+            let earthRadius = 75;
+            let earthAngle = 0;
+            let earthSpeed = 1.5;
+            let marsRadius = 95;
+            let marsAngle = 95;
+            let marsSpeed = 0.7;
+            let jupiterRadius = 125;
+            let jupiterAngle = 79;
+            let jupiterSpeed = 0.5;
+            let saturnRadius = 165;
+            let saturnAngle = 27;
+            let saturnSpeed = 0.6;
+            let neptuneRadius = 225;
+            let neptuneAngle = 192;
+            let neptuneSpeed = 0.3;
+            let uranusRadius = 195;
+            let uranusAngle = 267;
+            let uranusSpeed = 0.4;
+            let moonRadius = 7;
+            let moonAngle = 0;
+            let moonSpeed = 1.5;
+
+            // function buildRadians(a, s, r, p){
+            //     a += s;
+            //     orbitAngleInRadians =  a * Math.PI / 180;
+            //     p.position.x = Math.cos(orbitAngleInRadians) * r;
+            //     p.position.z = Math.sin(orbitAngleInRadians) * r;
+            // };
+
+            let animate = function () {
+                requestAnimationFrame(animate);
+                trackballControls.update();
+
+                mercuryAngle += mercurySpeed;
+                orbitAngleInRadians =  mercuryAngle * Math.PI / 180;
+                mercury.position.x = Math.cos(orbitAngleInRadians) * mercuryRadius;
+                mercury.position.z = Math.sin(orbitAngleInRadians) * mercuryRadius;
+
+                venusAngle += venusSpeed;
+                orbitAngleInRadians =  venusAngle * Math.PI / 180;
+                venus.position.x = Math.cos(orbitAngleInRadians) * venusRadius;
+                venus.position.z = Math.sin(orbitAngleInRadians) * venusRadius;
+
+                marsAngle += marsSpeed;
+                orbitAngleInRadians =  marsAngle * Math.PI / 180;
+                mars.position.x = Math.cos(orbitAngleInRadians) * marsRadius;
+                mars.position.z = Math.sin(orbitAngleInRadians) * marsRadius;
+
+                jupiterAngle += jupiterSpeed;
+                orbitAngleInRadians =  jupiterAngle * Math.PI / 180;
+                jupiter.position.x = Math.cos(orbitAngleInRadians) * jupiterRadius;
+                jupiter.position.z = Math.sin(orbitAngleInRadians) * jupiterRadius;
+
+                saturnAngle += saturnSpeed;
+                orbitAngleInRadians =  saturnAngle * Math.PI / 180;
+                saturn.position.x = Math.cos(orbitAngleInRadians) * saturnRadius;
+                saturn.position.z = Math.sin(orbitAngleInRadians) * saturnRadius;
+
+                uranusAngle += uranusSpeed;
+                orbitAngleInRadians =  uranusAngle * Math.PI / 180;
+                uranus.position.x = Math.cos(orbitAngleInRadians) * uranusRadius;
+                uranus.position.z = Math.sin(orbitAngleInRadians) * uranusRadius;
+
+                neptuneAngle += neptuneSpeed;
+                orbitAngleInRadians =  neptuneAngle * Math.PI / 180;
+                neptune.position.x = Math.cos(orbitAngleInRadians) * neptuneRadius;
+                neptune.position.z = Math.sin(orbitAngleInRadians) * neptuneRadius;
+
+                earthAngle += earthSpeed;
+                orbitAngleInRadians =  earthAngle * Math.PI / 180;
+                earth.position.x = Math.cos(orbitAngleInRadians) * earthRadius;
+                earth.position.z = Math.sin(orbitAngleInRadians) * earthRadius;
+
+                x = moon.position.x - earth.position.x;
+                z = moon.position.z - earth.position.z;
+
+                moonAngle += moonSpeed;
+                orbitAngleInRadians =  moonAngle * Math.PI / 180;
+                moon.position.x = Math.cos(orbitAngleInRadians) * moonRadius;
+                moon.position.z = Math.sin(orbitAngleInRadians) * moonRadius;
+
+                moon.position.x = x + earth.position.x;
+                moon.position.z = z + earth.position.z;
+
+                // buildRadians(mercuryRadius, mercuryAngle, mercurySpeed, mercury);
+                // buildRadians(venusRadius, venusAngle, venusSpeed, venus);
+                // buildRadians(earthRadius, earthAngle, earthSpeed, earth);
+                // moon.position.x = x + earth.position.x;
+                // moon.position.z = z + earth.position.z;
+                // buildRadians(marsRadius, marsAngle, marsSpeed, mars);
+                // buildRadians(jupiterRadius, jupiterAngle, jupiterSpeed, jupiter);
+                // buildRadians(saturnRadius, saturnAngle, saturnSpeed, saturn);
+                // buildRadians(neptuneRadius, neptuneAngle, neptuneSpeed, neptune);
+                // buildRadians(uranusRadius, uranusAngle, uranusSpeed, uranus);
+                // x = moon.position.x - earth.position.x;
+                // z = moon.position.z - earth.position.z;
+                // buildRadians(moonRadius, moonAngle, moonSpeed, moon);
+
+                mercury.rotateY(0.01);
+                venus.rotateY(0.01);
+                earth.rotateY(0.01);
+                mars.rotateY(0.01);
+                saturn.rotateY(0.01);
+                jupiter.rotateY(0.01);
+                uranus.rotateY(0.01);
+                neptune.rotateY(0.01);
+                //moon.rotateY(0.01);
+
+                webGLRenderer.render(scene, camera);
+            };
+
+            animate();
+
+        </script>
+    </body>
+</html>
