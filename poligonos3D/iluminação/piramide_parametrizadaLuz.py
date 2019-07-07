@@ -1,11 +1,3 @@
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Jul  4 15:30:24 2019
-
-@author: vinicius
-"""
-
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
 from OpenGL.GL import *
@@ -21,10 +13,6 @@ if (qtdlados < 3) :
     sys.exit()
     
 angulo = (2*math.pi)/qtdlados
-#faces = 2*qtdlados;
-#vertices = qtdlados + 2;
-#linhas = 3*qtdlados
-#cores = 2*qtdlados
 anguloAtual = 0
 vertices = ()
 vertices += (( 0, h, 0), (1, 0, 0),)
@@ -42,10 +30,6 @@ for i in range (1, qtdlados+1):
 for i in range (1, qtdlados):
     linhas += ((i,i+1),)
 linhas += ((qtdlados,1),)
-#for i in range (1,qtdlados+1):
-#    linhas += ((qtdlados+1, i),)
-
-
 faces = ()
 for i in range (1, qtdlados+1):
     faces += ((0,i,i+1),)    

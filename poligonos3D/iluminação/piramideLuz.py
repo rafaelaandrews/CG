@@ -1,11 +1,3 @@
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Jul  1 00:46:08 2019
-
-@author: vinicius
-"""
-
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
 from OpenGL.GL import *
@@ -42,15 +34,6 @@ faces = (
     (1,3,4)
     )
 
-#https://www.opengl.org/wiki/Calculating_a_Surface_Normal
-#Begin Function CalculateSurfaceNormal (Input Triangle) Returns Vector
-#  Set Vector U to (Triangle.p2 minus Triangle.p1)
-#  Set Vector V to (Triangle.p3 minus Triangle.p1)
-#  Set Normal.x to (multiply U.y by V.z) minus (multiply U.z by V.y)
-#  Set Normal.y to (multiply U.z by V.x) minus (multiply U.x by V.z)
-#  Set Normal.z to (multiply U.x by V.y) minus (multiply U.y by V.x)
-#  Returning Normal
-#End Function
 def calculaNormalFace(face):
     x = 0
     y = 1
