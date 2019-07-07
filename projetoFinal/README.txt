@@ -1,4 +1,4 @@
-Para abrir o html È preciso rodar o comando ìpython -m http.serverî na pasta que o arquivo est·.
-Com isso, uma porta 8000 ser· aberta.
+Para abrir o html √© preciso rodar o comando ‚Äúpython -m http.server‚Äù na pasta que o arquivo est√°.
+Com isso, uma porta 8000 ser√° aberta.
 No navegador acesse http://localhost:8000/
-Escolha o arquivo projetoFinal
+Escolha o arquivo projetoFinal.html
